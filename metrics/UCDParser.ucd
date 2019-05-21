@@ -1,0 +1,196 @@
+MODEL UCDParser
+CLASS GUI
+ATTRIBUTES 
+      text_path : Text,
+      cont : Controler,
+      classesNames : String[],
+      text_details : Text,
+      currentClassName : String
+OPERATIONS
+      main(args : String[]) : void
+;
+
+CLASS Controler
+ATTRIBUTES 
+      arrClasses : ArrayList<ClassDec>,
+      types : List<String>,
+      arrGeneralisations : ArrayList<GeneralisationD>,
+      arrRelations : ArrayList<RelationD>,
+      arrAggregations : ArrayList<AggregationD>,
+      modelName : String,
+      fileToREad : String
+OPERATIONS
+      Controler(pfileToREad : String) : void,
+      getTypes() : List<String>,
+      getArrClasses() : ArrayList<ClassDec>,
+      getArrClassesNames() : ArrayList<String>,
+      getClassesNames() : ArrayList<String>,
+      getClassByName(className : String) : ArrayList<String>,
+      getRealtionsNames() : ArrayList<String>,
+      getClassesNamesTable() : String[],
+      getStrDeclGen(currentClassName : String, subClass : String) : String,
+      getStrDeclRel(relationName : String) : String,
+      getStrDeclAgg(currentClassName : String,partName : String) : String,
+      generateCSV() : void 
+;
+
+CLASS AggregationD
+ATTRIBUTES 
+      strDecl : String,
+      container : String,
+      parts : List<String>
+OPERATIONS
+      AggregationD(pStrDecl : String) : void,
+      SetAggregationD() : void,
+      getContainer() : String,
+      getParts() : List<String>,
+      getStrDecl() : String
+;
+
+CLASS GeneralisationD
+ATTRIBUTES 
+      strDecl : String,
+      generalisationName : String,
+      subclasses : List<String>
+OPERATIONS
+      GeneralisationD(pStrDecl : String) : void,
+      SetGeneralisationD() : void,
+      getGeneralisationName() : String,
+      getStrDecl() : String,
+      getSubclasses() : List<String>
+;
+
+CLASS RelationD
+ATTRIBUTES 
+      strDecl : String,
+      relationName : String,
+      firstClass : String,
+      secondClass : String
+OPERATIONS
+      RelationD(pStrDecl : String) : void,
+      SetRelationD() : void,
+      getStrDecl() : String,
+      getFirstClass() : String,
+      getSecondClass() : String,
+      getRelationName() : String
+;
+
+CLASS Method
+ATTRIBUTES 
+      name : String,
+      typeReturn : String,
+      ListP : List<Item>
+OPERATIONS
+      Method(pstring : String) : void,
+      getName() : String,
+      getTypeReturn() : String,
+      getListP() : List<Item>
+;
+
+CLASS Item
+ATTRIBUTES
+      name : String,
+      type : String,
+      Ctype : Object
+OPERATIONS
+      Item(ptype : String, pname : String) : void,
+      getName() : String,
+      getType() : String,
+      getCtype() : Object
+;
+
+CLASS ClassDec
+ATTRIBUTES 
+      strDecl : String,
+      className : String,
+      ListAttsI : ArrayList<Item>,
+      ListOpsI : ArrayList<Method>, 
+      ListSubCla : ArrayList<ClassDec>,
+      ListSupCla : ArrayList<ClassDec>,
+      ListRela : ArrayList<String>,
+      ListAgg : ArrayList<String>,
+      ListAttsAll : ArrayList<String>,
+      ListOpsAll : ArrayList<String>,
+      depthU : Integer,
+      ListSubClaNamesAll : ArrayList<String>,
+      depthD : Integer,
+      ListMetrics : ArrayList<String>,
+      ANA : Double,
+      NOM : Integer,
+      NOA : Integer,
+      ITC : Integer,
+      ETC : Integer,
+      CAC : Integer,
+      DIT : Integer,
+      CLD : Integer,
+      NOC : Integer,
+      NOD : Integer
+OPERATIONS
+      ClassDec(pStrDecl : String) : void,
+      SetClassDec() : void,
+      getClassName() : String,
+      getStrDecl() : String,
+      getListAttsI() : ArrayList<Item>,
+      getListOpsI() : ArrayList<Method>,
+      addSubClass(subClassName : ClassDec) : void,
+      getListAttsNames() : ArrayList<String>,
+      getListAttsNamesSTR() : String[],
+      getListOpsNames() : ArrayList<String>,
+      getListOpsNamesSTR() : String[],
+      getListSubClaNames() : ArrayList<String>,
+      getListSubClaNamesSTR() : String[],
+      getListSupClaNames() : ArrayList<String>,
+      getListSupClaNamesSTR() : String[],
+      getListRela() : String[],
+      getListAgg() : String[],
+      addClassAgg(aggClass : String) : void,
+      addRelation(relationName : String) : void,
+      getListAggRela() : String[],
+      getMetrics() : String[],
+      convertListToTable(listOfStrings : List<String>) : String[],
+      calculateMetrics() : void
+;
+
+RELATION est_sous_classe 
+       ROLES
+       CLASS ClassDec ONE_OR_MANY,
+       CLASS ClassDec ONE
+;
+
+RELATION est_super_classe 
+       ROLES
+       CLASS ClassDec ONE_OR_MANY,
+       CLASS ClassDec ONE
+;
+
+AGGREGATION 
+CONTAINER 
+       CLASS GUI ONE
+PARTS
+       CLASS Controler ONE
+;
+
+AGGREGATION 
+CONTAINER 
+       CLASS Controler ONE
+PARTS
+       CLASS AggregationD NONE_OR_MANY,
+       CLASS RelationD NONE_OR_MANY,
+       CLASS GeneralisationD NONE_OR_MANY,
+       CLASS ClassDec NONE_OR_MANY
+;
+
+AGGREGATION 
+CONTAINER 
+       CLASS ClassDec ONE
+PARTS
+       CLASS Method NONE_OR_MANY,
+       CLASS Item NONE_OR_MANY
+;
+
+AGGREGATION 
+CONTAINER 
+       CLASS Method ONE
+PARTS
+       CLASS Item NONE_OR_MANY
+;

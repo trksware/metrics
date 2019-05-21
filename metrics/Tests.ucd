@@ -1,0 +1,91 @@
+MODEL TESTS
+CLASS Class1 
+ATTRIBUTES 
+s1 : String
+OPERATIONS
+	methode_1() : Integer,
+	methode_2(st : String) : void
+;
+
+CLASS Class2
+ATTRIBUTES 
+s1 : String
+OPERATIONS
+	methode_3(eq : Class1, annee : Class2) : Integer,
+	methode_10(c3 : Class3) : void
+;
+
+CLASS Class3 
+ATTRIBUTES 
+s1 : String,
+i1 : Integer
+OPERATIONS 
+	methode_3(eq : Class1, annee : Class2) : Integer,
+	methode_4(eq : Class5, annee : Integer, element : Class7) : String,
+	methode_5(element : String) : void
+;
+
+CLASS Class4 
+ATTRIBUTES 
+s1 : String
+OPERATIONS 
+	methode_6(c3 : Class3) : void,
+	methode_7(c3 : Class3) : void
+;
+
+CLASS Class5 
+ATTRIBUTES 
+s1 : String
+OPERATIONS 
+	methode_8(c3 : Class3) : void,
+	methode_9(c3 : Class3) : void
+;
+
+CLASS Class6 
+ATTRIBUTES 
+s1 : String
+OPERATIONS 
+;
+
+CLASS Class7 
+ATTRIBUTES 
+s1 : String
+OPERATIONS 
+;
+
+CLASS Class8 
+ATTRIBUTES 
+s1 : String
+OPERATIONS 
+;
+
+CLASS Class9 
+ATTRIBUTES 
+s1 : String
+OPERATIONS 
+;
+
+
+GENERALIZATION Class1
+      SUBCLASSES Class2
+;
+
+GENERALIZATION Class2
+      SUBCLASSES Class3
+;
+
+GENERALIZATION Class3
+      SUBCLASSES Class4, Class5
+;
+
+GENERALIZATION Class4
+      SUBCLASSES Class6, Class7
+;
+
+GENERALIZATION Class5
+      SUBCLASSES Class8
+;
+
+GENERALIZATION Class7
+      SUBCLASSES Class9
+;
